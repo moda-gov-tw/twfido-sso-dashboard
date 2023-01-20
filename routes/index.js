@@ -1,3 +1,5 @@
+var sha3_512 = require('js-sha3').sha3_512;
+
 async function getAccessToken() {
   let url = `https://login.microsoftonline.com/${process.env.AAD_TENANT_ID}/oauth2/v2.0/token`;
   let params = new URLSearchParams();
@@ -155,9 +157,9 @@ router.post('/:mail', async function (req, res, next) {
 
   data.pwd_expiry = req.body.pwd_expiry;
   if (req.body.twid)
-    data.twid = req.body.twid;
+    data.twid = sha3_512(req.body.twid);
   if (req.body.pwd)
-    data.pwd = req.body.pwd;
+    data.pwd = sha3_512(req.body.pwd);
 
   url = `https://graph.microsoft.com/v1.0/users/${req.params.mail}/extensions/twfido`;
   options = {
