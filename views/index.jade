@@ -1,0 +1,37 @@
+extends layout
+
+block content
+  h1.pb-2.border-bottom= title
+  p Welcome to #{title}
+  table#table(data-toggle='table' data-url='users.json')
+    thead
+      tr
+        th(data-field='userPrincipalName' data-sortable='true') 信箱
+        th(data-field='displayName' data-sortable='true') 姓名
+        th(data-field='twid' data-formatter='twid' data-sortable='true') 身分證字號
+        th(data-field='pwd' data-formatter='pwd' data-sortable='true') 臨時密碼
+        th(data-field='pwd_expiry' data-sortable='true') 臨時密碼期限
+        th(data-formatter='link') 編輯
+  script.
+    function link(value, row) {
+      return `<a href="/${row.userPrincipalName}">編輯</a>`;
+    }
+    function twid(value, row) {
+      if (value == 'set') {
+        return '<span class="badge rounded-pill bg-success">已設定</span>';
+      } else {
+        return '<span class="badge rounded-pill bg-secondary">未設定</span>';
+      }
+    }
+    function pwd(value, row) {
+      if (value == 'set') {
+        if (new Date(row.pwd_expiry) > new Date()){
+          return '<span class="badge rounded-pill bg-success">啟用中</span>';
+        } else {
+          return '<span class="badge rounded-pill bg-danger">已過期</span>';
+        }
+      } else {
+        return '<span class="badge rounded-pill bg-secondary">未設定</span>';
+      }
+    }
+

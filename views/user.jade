@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  h1.pb-2.mb-4.border-bottom= title
+  form(method='POST')
+    .row.mb-3
+        label.col-sm-3.col-form-label 信箱
+        .col-sm-9
+            input.form-control(type='email' value='#{mail}' readonly) 
+    .row.mb-3
+        label.col-sm-3.col-form-label 姓名
+        .col-sm-9
+            input.form-control(type='text' value='#{name}' readonly)
+    .row.mb-3
+        label.col-sm-3.col-form-label 身分證字號
+        .col-sm-9
+            input.form-control(type='text' name="twid" placeholder="若不修改則空白")
+    .row.mb-3
+        label.col-sm-3.col-form-label 臨時密碼
+        .col-sm-9
+            input.form-control(type='text' name="pwd" placeholder="若不修改則空白")
+    .row.mb-3
+        label.col-sm-3.col-form-label 臨時密碼期限
+        .col-sm-9
+            input.form-control(type='datetime-local' name="pwd_expiry" value='#{pwd_expiry}')
+    input(type='hidden' value='#{id}' name="id")
+    button.btn.btn-primary(type='submit') 送出
