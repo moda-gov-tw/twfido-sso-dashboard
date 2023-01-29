@@ -74,17 +74,17 @@ router.get('/users.json', async function (req, res, next) {
         const find = i.extensions.filter(j => j.id == 'twfido');
         if (find.length > 0) {
           obj.twid = find[0].twid ? "set" : "unset";
-          obj.pwd = find[0].twid ? "set" : "unset";
+          obj.pwd = find[0].pwd ? "set" : "unset";
           obj.pwd_expiry = find[0].pwd_expiry;
         } else {
           obj.twid = "unset";
           obj.pwd = "unset";
-          obj.pwd_expiry = null;
+          obj.pwd_expiry = "";
         }
       } else {
         obj.twid = "unset";
         obj.pwd = "unset";
-        obj.pwd_expiry = null;
+        obj.pwd_expiry = "";
       }
 
       return obj;

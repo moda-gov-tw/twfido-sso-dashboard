@@ -25,7 +25,7 @@ block content
     }
     function pwd(value, row) {
       if (value == 'set') {
-        if (new Date(row.pwd_expiry) > new Date()){
+        if (new Date(row.pwd_expiry) > new Date() || !row.pwd_expiry){
           return '<span class="badge rounded-pill bg-success">啟用中</span>';
         } else {
           return '<span class="badge rounded-pill bg-danger">已過期</span>';
