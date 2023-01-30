@@ -69,13 +69,12 @@ router.get('/users.json', async function (req, res, next) {
 
     r = r.map(i => {
       const obj = i;
-
       if (i.extensions) {
         const find = i.extensions.filter(j => j.id == 'twfido');
         if (find.length > 0) {
           obj.twid = find[0].twid ? "set" : "unset";
           obj.pwd = find[0].pwd ? "set" : "unset";
-          obj.pwd_expiry = find[0].pwd_expiry;
+          obj.pwd_expiry = find[0].pwd_expiry.replace('T', ' ');
         } else {
           obj.twid = "unset";
           obj.pwd = "unset";
@@ -173,7 +172,7 @@ router.post('/:mail', async function (req, res, next) {
 
   try {
     let r = await fetch(url, options);
-    res.send("done");
+    res.redirect("/");
   } catch (err) {
     res.status(500).json({ msg: err });
   }
