@@ -114,7 +114,12 @@ router.get('/:mail', async function (req, res, next) {
     const find = r.extensions.filter(i => i.id == 'twfido');
 
     if (find.length > 0) {
-      pwd_expiry = find[0].pwd_expiry ?? null;
+      if (find[0].pwd_expiry != "") {
+        var now = new Date(find[0].pwd_expiry);
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        t = now.toISOString().slice(0, 16);
+        pwd_expiry = t ?? null;
+      }
     }
   } catch (err) {
     res.status(500).json({ msg: `Internal Server Error.` });
@@ -154,9 +159,9 @@ router.post('/:mail', async function (req, res, next) {
     res.status(500).json({ msg: `Get extension failed.` + err });
   }
 
-  data.pwd_expiry = req.body.pwd_expiry;
+  data.pwd_expiry = req.body.pwd_expiry + ":00+08:00";
   if (req.body.twid)
-    data.twid = sha3_512(req.body.twid);
+    data.twid = sha3_512(req.body.id + req.body.twid);
   if (req.body.pwd)
     data.pwd = sha3_512(req.body.pwd);
 
